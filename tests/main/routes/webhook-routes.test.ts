@@ -5,6 +5,8 @@ import { Collection } from 'mongodb'
 import { Express } from 'express'
 import request from 'supertest'
 import faker from 'faker'
+import crypto from 'crypto'
+import env from '@/main/config/env'
 
 let eventCollection: Collection
 let app: Express
@@ -42,14 +44,27 @@ describe('Webhook Routes', () => {
           id: faker.datatype.number(10)
         }
       }
+
+      const signature = `sha1=${
+        crypto.createHmac('sha1', env.secretWebhook)
+          .update(JSON.stringify(payload))
+          .digest('hex')}`
+
       await request(app)
         .post('/api/webhook')
+        .set('x-hub-signature', signature)
         .send(payload)
         .expect(201)
       await request(app)
         .post('/api/webhook')
+        .set('x-hub-signature', signature)
         .send(payload)
         .expect(204)
+      await request(app)
+        .post('/api/webhook')
+        .set('x-hub-signature', `${signature}-invalid`)
+        .send(payload)
+        .expect(403)
     })
   })
 })

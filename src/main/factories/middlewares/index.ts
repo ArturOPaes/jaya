@@ -1,1 +1,1 @@
-// export * from './auth-middleware-factory'
+export * from './validate-webhook-signature-factory'

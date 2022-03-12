@@ -9,7 +9,9 @@ export const mockAddEventParams = (): AddEvent.Params => ({
     number: faker.datatype.number(10),
     user: {
       id: faker.datatype.number(10)
-    }
+    },
+    created_at: faker.date.recent().toISOString(),
+    updated_at: faker.date.recent().toISOString()
   },
   repository: {
     id: faker.datatype.number(10)

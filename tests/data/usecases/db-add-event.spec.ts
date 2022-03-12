@@ -1,21 +1,21 @@
 import { DbAddEvent } from '@/data/usecases'
 import { mockAddEventParams, throwError } from '@/tests/domain/mocks'
-import { AddEventRepositorySpy, CheckEventByIssueIdRepositorySpy } from '@/tests/data/mocks'
+import { AddEventRepositorySpy, CheckByIssueIdAndIssueUpdatedAtRepositorySpy } from '@/tests/data/mocks'
 
 type SutTypes = {
   sut: DbAddEvent
   addEventRepositorySpy: AddEventRepositorySpy
-  checkEventByIssueIdRepositorySpy: CheckEventByIssueIdRepositorySpy
+  checkByIssueIdAndIssueUpdatedAtRepositorySpy: CheckByIssueIdAndIssueUpdatedAtRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const checkEventByIssueIdRepositorySpy = new CheckEventByIssueIdRepositorySpy()
+  const checkByIssueIdAndIssueUpdatedAtRepositorySpy = new CheckByIssueIdAndIssueUpdatedAtRepositorySpy()
   const addEventRepositorySpy = new AddEventRepositorySpy()
-  const sut = new DbAddEvent(addEventRepositorySpy, checkEventByIssueIdRepositorySpy)
+  const sut = new DbAddEvent(addEventRepositorySpy, checkByIssueIdAndIssueUpdatedAtRepositorySpy)
   return {
     sut,
     addEventRepositorySpy,
-    checkEventByIssueIdRepositorySpy
+    checkByIssueIdAndIssueUpdatedAtRepositorySpy
   }
 }
 
@@ -52,17 +52,20 @@ describe('DbAddEvent Usecase', () => {
     expect(isValid).toBe(false)
   })
 
-  test('Should return false if CheckEventByIssueIdRepository returns true', async () => {
-    const { sut, checkEventByIssueIdRepositorySpy } = makeSut()
-    checkEventByIssueIdRepositorySpy.result = true
+  test('Should return false if CheckByIssueIdAndIssueUpdatedAtRepository returns true', async () => {
+    const { sut, checkByIssueIdAndIssueUpdatedAtRepositorySpy } = makeSut()
+    checkByIssueIdAndIssueUpdatedAtRepositorySpy.result = true
     const isValid = await sut.add(mockAddEventParams())
     expect(isValid).toBe(false)
   })
 
-  test('Should call CheckEventByIssueIdRepository with correct email', async () => {
-    const { sut, checkEventByIssueIdRepositorySpy } = makeSut()
+  test('Should call CheckByIssueIdAndIssueUpdatedAtRepository with correct email', async () => {
+    const { sut, checkByIssueIdAndIssueUpdatedAtRepositorySpy } = makeSut()
     const addEventParams = mockAddEventParams()
     await sut.add(addEventParams)
-    expect(checkEventByIssueIdRepositorySpy.issueId).toBe(addEventParams.issue.id)
+    expect(checkByIssueIdAndIssueUpdatedAtRepositorySpy.params).toEqual({
+      issueId: addEventParams.issue.id,
+      updatedAt: addEventParams.issue.updated_at
+    })
   })
 })

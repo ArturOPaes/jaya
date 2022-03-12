@@ -1,4 +1,4 @@
-import { AddEventRepository, CheckEventByIssueIdRepository } from '@/data/protocols'
+import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository } from '@/data/protocols'
 
 export class AddEventRepositorySpy implements AddEventRepository {
   params: AddEventRepository.Params
@@ -10,12 +10,12 @@ export class AddEventRepositorySpy implements AddEventRepository {
   }
 }
 
-export class CheckEventByIssueIdRepositorySpy implements CheckEventByIssueIdRepository {
-  issueId: number
+export class CheckByIssueIdAndIssueUpdatedAtRepositorySpy implements CheckByIssueIdAndIssueUpdatedAtRepository {
+  params: CheckByIssueIdAndIssueUpdatedAtRepository.Params
   result = false
 
-  async checkByIssueId (issueId: number): Promise<CheckEventByIssueIdRepository.Result> {
-    this.issueId = issueId
+  async checkByIssueIdAndIssueUpdatedAt (params: CheckByIssueIdAndIssueUpdatedAtRepository.Params): Promise<CheckByIssueIdAndIssueUpdatedAtRepository.Result> {
+    this.params = params
     return this.result
   }
 }
