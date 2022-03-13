@@ -20,7 +20,6 @@ process.env.SECRET_WEBHOOK
 Install the dependencies and start the server.
 
 ```sh
-cd dillinger
 npm i
 npm build
 node start
