@@ -16,6 +16,7 @@ services:
     command: bash -c "npm install --only=prod && npm run debug"
     environment:
       - MONGO_URL=mongodb://mongo:27017/jaya-test
+      - PORT=4000
     volumes:
       - ./dist/:/usr/src/jaya-test/dist/
       - ./package.json:/usr/src/jaya-test/package.json
