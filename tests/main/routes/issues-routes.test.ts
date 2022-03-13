@@ -24,13 +24,13 @@ describe('Issues Routes', () => {
     await eventCollection.deleteMany({})
   })
 
-  describe('GET /issues/:issueId/events', () => {
+  describe('GET /issues/:issueNumber/events', () => {
     test.only('Should return 200 on success', async () => {
       const mock = mockedEvent()
       const event = await eventCollection.insertOne(mock)
       const { _id, ...rest } = mock
       const res = await request(app)
-        .get(`/api/issues/${mock.issue.id}/events`)
+        .get(`/api/issues/${mock.issue.number}/events`)
         .send()
 
       expect(res.status).toBe(200)

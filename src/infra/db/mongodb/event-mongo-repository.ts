@@ -1,8 +1,7 @@
 import { MongoHelper } from '@/infra/db'
-import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueIdRepository } from '@/data/protocols/db'
+import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueNumberRepository } from '@/data/protocols/db'
 
-export class EventMongoRepository implements AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueIdRepository {
-  checkByIssueIdAndIssueUpdateddAt: (params: CheckByIssueIdAndIssueUpdatedAtRepository.Params) => Promise<boolean>
+export class EventMongoRepository implements AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueNumberRepository {
   async add (data: AddEventRepository.Params): Promise<AddEventRepository.Result> {
     const eventCollection = MongoHelper.getCollection('events')
     const result = await eventCollection.insertOne(data)
@@ -22,10 +21,10 @@ export class EventMongoRepository implements AddEventRepository, CheckByIssueIdA
     return event !== null
   }
 
-  async get (issueId: GetEventsByIssueIdRepository.Params): Promise<GetEventsByIssueIdRepository.Result> {
+  async get (issueNumber: GetEventsByIssueNumberRepository.Params): Promise<GetEventsByIssueNumberRepository.Result> {
     const eventCollection = MongoHelper.getCollection('events')
     const events = await eventCollection.find({
-      'issue.id': issueId
+      'issue.number': issueNumber
     }).toArray()
     return MongoHelper.mapCollection(events)
   }

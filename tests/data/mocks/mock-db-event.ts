@@ -1,4 +1,4 @@
-import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueIdRepository } from '@/data/protocols'
+import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueNumberRepository } from '@/data/protocols'
 import { mockEvent } from '@/tests/domain/mocks'
 
 export class AddEventRepositorySpy implements AddEventRepository {
@@ -21,11 +21,11 @@ export class CheckByIssueIdAndIssueUpdatedAtRepositorySpy implements CheckByIssu
   }
 }
 
-export class GetEventsByIssueIdRepositorySpy implements GetEventsByIssueIdRepository {
-  params: GetEventsByIssueIdRepository.Params
+export class GetEventsByIssueNumberRepositorySpy implements GetEventsByIssueNumberRepository {
+  params: GetEventsByIssueNumberRepository.Params
   result = [mockEvent()]
 
-  async get (params: GetEventsByIssueIdRepository.Params): Promise<GetEventsByIssueIdRepository.Result> {
+  async get (params: GetEventsByIssueNumberRepository.Params): Promise<GetEventsByIssueNumberRepository.Result> {
     this.params = params
     return this.result
   }

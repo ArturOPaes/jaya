@@ -1,9 +1,9 @@
 import { EventModel } from '@/domain/models/event'
 
-export interface GetEventsByIssueId {
-  get: (issueId: number) => Promise<GetEventsByIssueId.Result>
+export interface GetEventsByIssueNumber {
+  get: (issueNumber: number) => Promise<GetEventsByIssueNumber.Result>
 }
 
-export namespace GetEventsByIssueId {
+export namespace GetEventsByIssueNumber {
   export type Result = EventModel[]
 }

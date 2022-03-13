@@ -1,8 +1,8 @@
-import { DbGetEventsByIssueId } from '@/data/usecases'
-import { GetEventsByIssueId } from '@/domain/usecases'
+import { DbGetEventsByIssueNumber } from '@/data/usecases'
+import { GetEventsByIssueNumber } from '@/domain/usecases'
 import { EventMongoRepository } from '@/infra/db'
 
-export const makeDbGetEventsByIssueId = (): GetEventsByIssueId => {
+export const makeDbGetEventsByIssueNumber = (): GetEventsByIssueNumber => {
   const eventMongoRepository = new EventMongoRepository()
-  return new DbGetEventsByIssueId(eventMongoRepository)
+  return new DbGetEventsByIssueNumber(eventMongoRepository)
 }

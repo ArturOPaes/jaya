@@ -1,11 +1,11 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 import { badRequest, serverError, ok, noContent } from '@/presentation/helpers'
-import { GetEventsByIssueId } from '@/domain/usecases'
+import { GetEventsByIssueNumber } from '@/domain/usecases'
 
 export class GetEventsByIssueController implements Controller {
   constructor (
     private readonly validation: Validation,
-    private readonly getEventsByIssueId: GetEventsByIssueId
+    private readonly getEventsByIssueNumber: GetEventsByIssueNumber
   ) {}
 
   async handle (request: GetEventsByIssueController.Request): Promise<HttpResponse> {
@@ -14,7 +14,7 @@ export class GetEventsByIssueController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const result = await this.getEventsByIssueId.get(Number(request.issueId))
+      const result = await this.getEventsByIssueNumber.get(Number(request.issueNumber))
       return result ? ok(result) : noContent()
     } catch (error) {
       return serverError(error)
@@ -24,6 +24,6 @@ export class GetEventsByIssueController implements Controller {
 
 export namespace GetEventsByIssueController {
   export type Request = {
-    issueId: number
+    issueNumber: number
   }
 }

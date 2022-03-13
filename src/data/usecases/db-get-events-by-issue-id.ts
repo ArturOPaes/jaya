@@ -1,12 +1,12 @@
-import { GetEventsByIssueId } from '@/domain/usecases'
-import { GetEventsByIssueIdRepository } from '../protocols'
+import { GetEventsByIssueNumber } from '@/domain/usecases'
+import { GetEventsByIssueNumberRepository } from '../protocols'
 
-export class DbGetEventsByIssueId implements GetEventsByIssueId {
+export class DbGetEventsByIssueNumber implements GetEventsByIssueNumber {
   constructor (
-    private readonly getEventsByIssueIdRepository: GetEventsByIssueIdRepository
+    private readonly getEventsByIssueNumberRepository: GetEventsByIssueNumberRepository
   ) {}
 
-  async get (issueId: number): Promise<GetEventsByIssueId.Result> {
-    return await this.getEventsByIssueIdRepository.get(issueId)
+  async get (issueNumber: number): Promise<GetEventsByIssueNumber.Result> {
+    return await this.getEventsByIssueNumberRepository.get(issueNumber)
   }
 }

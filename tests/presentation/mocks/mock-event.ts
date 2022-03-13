@@ -1,4 +1,4 @@
-import { AddEvent, GetEventsByIssueId } from '@/domain/usecases'
+import { AddEvent, GetEventsByIssueNumber } from '@/domain/usecases'
 import { mockEvent } from '@/tests/domain/mocks'
 
 export class AddEventSpy implements AddEvent {
@@ -11,11 +11,11 @@ export class AddEventSpy implements AddEvent {
   }
 }
 
-export class GetEventsByIssueIdSpy implements GetEventsByIssueId {
+export class GetEventsByIssueNumberSpy implements GetEventsByIssueNumber {
   params: number
   result = [mockEvent()]
 
-  async get (params: number): Promise<GetEventsByIssueId.Result> {
+  async get (params: number): Promise<GetEventsByIssueNumber.Result> {
     this.params = params
     return this.result
   }

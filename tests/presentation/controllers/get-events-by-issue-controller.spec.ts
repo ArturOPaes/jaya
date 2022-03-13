@@ -1,28 +1,28 @@
 import { GetEventsByIssueController } from '@/presentation/controllers'
 import { badRequest, serverError, ok } from '@/presentation/helpers'
-import { ValidationSpy, GetEventsByIssueIdSpy } from '@/tests/presentation/mocks'
+import { ValidationSpy, GetEventsByIssueNumberSpy } from '@/tests/presentation/mocks'
 import { throwError } from '@/tests/domain/mocks'
 
 import faker from 'faker'
 
 const mockRequest = (): GetEventsByIssueController.Request => ({
-  issueId: faker.datatype.number(10)
+  issueNumber: faker.datatype.number(10)
 })
 
 type SutTypes = {
   sut: GetEventsByIssueController
   validationSpy: ValidationSpy
-  getEventsByIssueIdSpy: GetEventsByIssueIdSpy
+  getEventsByIssueNumberSpy: GetEventsByIssueNumberSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const getEventsByIssueIdSpy = new GetEventsByIssueIdSpy()
-  const sut = new GetEventsByIssueController(validationSpy, getEventsByIssueIdSpy)
+  const getEventsByIssueNumberSpy = new GetEventsByIssueNumberSpy()
+  const sut = new GetEventsByIssueController(validationSpy, getEventsByIssueNumberSpy)
   return {
     sut,
     validationSpy,
-    getEventsByIssueIdSpy
+    getEventsByIssueNumberSpy
   }
 }
 
@@ -41,23 +41,23 @@ describe('GetEventsByIssueController Controller', () => {
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 
-  test('Should call GetEventsByIssueId with correct values', async () => {
-    const { sut, getEventsByIssueIdSpy } = makeSut()
+  test('Should call GetEventsByIssueNumber with correct values', async () => {
+    const { sut, getEventsByIssueNumberSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
-    expect(getEventsByIssueIdSpy.params).toEqual(request.issueId)
+    expect(getEventsByIssueNumberSpy.params).toEqual(request.issueNumber)
   })
 
-  test('Should return 500 if GetEventsByIssueId throws', async () => {
-    const { sut, getEventsByIssueIdSpy } = makeSut()
-    jest.spyOn(getEventsByIssueIdSpy, 'get').mockImplementationOnce(throwError)
+  test('Should return 500 if GetEventsByIssueNumber throws', async () => {
+    const { sut, getEventsByIssueNumberSpy } = makeSut()
+    jest.spyOn(getEventsByIssueNumberSpy, 'get').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should return 200 on success', async () => {
-    const { sut, getEventsByIssueIdSpy } = makeSut()
+    const { sut, getEventsByIssueNumberSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(getEventsByIssueIdSpy.result))
+    expect(httpResponse).toEqual(ok(getEventsByIssueNumberSpy.result))
   })
 })

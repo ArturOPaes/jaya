@@ -3,7 +3,7 @@ import { Validation } from '@/presentation/protocols'
 
 export const makeGetEventsByIssueValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  validations.push(new RequiredFieldValidation('issueId'))
-  validations.push(new RequiredNumberFieldValidation('issueId'))
+  validations.push(new RequiredFieldValidation('issueNumber'))
+  validations.push(new RequiredNumberFieldValidation('issueNumber'))
   return new ValidationComposite(validations)
 }
