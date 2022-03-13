@@ -1,7 +1,7 @@
 import { MongoHelper } from '@/infra/db'
-import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository } from '@/data/protocols/db'
+import { AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueIdRepository } from '@/data/protocols/db'
 
-export class EventMongoRepository implements AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository {
+export class EventMongoRepository implements AddEventRepository, CheckByIssueIdAndIssueUpdatedAtRepository, GetEventsByIssueIdRepository {
   checkByIssueIdAndIssueUpdateddAt: (params: CheckByIssueIdAndIssueUpdatedAtRepository.Params) => Promise<boolean>
   async add (data: AddEventRepository.Params): Promise<AddEventRepository.Result> {
     const eventCollection = MongoHelper.getCollection('events')
@@ -20,5 +20,13 @@ export class EventMongoRepository implements AddEventRepository, CheckByIssueIdA
       }
     })
     return event !== null
+  }
+
+  async get (issueId: GetEventsByIssueIdRepository.Params): Promise<GetEventsByIssueIdRepository.Result> {
+    const eventCollection = MongoHelper.getCollection('events')
+    const events = await eventCollection.find({
+      'issue.id': issueId
+    }).toArray()
+    return MongoHelper.mapCollection(events)
   }
 }

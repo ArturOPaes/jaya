@@ -64,7 +64,7 @@ describe('Webhook Routes', () => {
         .post('/api/webhook')
         .set('x-hub-signature', `${signature}-invalid`)
         .send(payload)
-        .expect(403)
+        .expect(401)
     })
   })
 })

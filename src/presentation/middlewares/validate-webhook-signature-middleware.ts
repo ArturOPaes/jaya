@@ -1,6 +1,5 @@
 import { Middleware, HttpResponse } from '@/presentation/protocols'
-import { forbidden, ok, serverError } from '@/presentation/helpers'
-import { AccessDeniedError } from '@/presentation/errors'
+import { unauthorized, ok, serverError } from '@/presentation/helpers'
 import crypto from 'crypto'
 
 export class ValidateSignatureMiddleware implements Middleware {
@@ -23,7 +22,7 @@ export class ValidateSignatureMiddleware implements Middleware {
           return ok({})
         }
       }
-      return forbidden(new AccessDeniedError())
+      return unauthorized()
     } catch (error) {
       return serverError(error)
     }

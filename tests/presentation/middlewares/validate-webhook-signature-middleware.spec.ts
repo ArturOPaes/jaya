@@ -1,6 +1,5 @@
 import { ValidateSignatureMiddleware } from '@/presentation/middlewares'
-import { forbidden, ok } from '@/presentation/helpers'
-import { AccessDeniedError } from '@/presentation/errors'
+import { unauthorized, ok } from '@/presentation/helpers'
 import faker from 'faker'
 import crypto from 'crypto'
 
@@ -47,7 +46,7 @@ describe('ValidateSignature Middleware', () => {
     const { sut } = makeSut()
     const request = mockRequest()
     const httpResponse = await sut.handle({ body: request.body, headers: {} })
-    expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
+    expect(httpResponse).toEqual(unauthorized())
   })
 
   test('Should return 200 if x-hub-signature is valid', async () => {
